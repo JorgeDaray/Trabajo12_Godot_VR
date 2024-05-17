@@ -1,0 +1,135 @@
+[gd_scene load_steps=10 format=3 uid="uid://bafcfe1c3r02k"]
+
+[ext_resource type="PackedScene" uid="uid://bq2bm71of6m5l" path="res://xr_origin_3d.tscn" id="1_dyttx"]
+[ext_resource type="Script" path="res://main.gd" id="1_hrtac"]
+[ext_resource type="Script" path="res://Accion_adelante.gd" id="3_6km8r"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ldlhr"]
+sky_top_color = Color(0.235294, 0.521569, 0.254902, 1)
+sky_horizon_color = Color(0.254902, 0.678431, 0.831373, 1)
+sky_curve = 0.106066
+ground_bottom_color = Color(0.196078, 0.0745098, 0.0470588, 1)
+ground_horizon_color = Color(0.70098, 0.572549, 0.719608, 1)
+
+[sub_resource type="Sky" id="Sky_qduim"]
+sky_material = SubResource("ProceduralSkyMaterial_ldlhr")
+
+[sub_resource type="Environment" id="Environment_lh55q"]
+background_mode = 2
+background_color = Color(0.419608, 0.431373, 0, 1)
+sky = SubResource("Sky_qduim")
+tonemap_mode = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x6h1l"]
+albedo_color = Color(0.262745, 0.643137, 0.34902, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3vqrn"]
+material = SubResource("StandardMaterial3D_x6h1l")
+size = Vector3(15, 0.2, 15)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uyq4u"]
+size = Vector3(15, 0.2, 15)
+
+[node name="main" type="Node3D"]
+script = ExtResource("1_hrtac")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_lh55q")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 5.18075, 0)
+light_color = Color(0.6, 0.482353, 0.521569, 1)
+shadow_enabled = true
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("BoxMesh_3vqrn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_uyq4u")
+
+[node name="XROrigin3D" parent="." instance=ExtResource("1_dyttx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0999999, 0)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1153.0
+offset_bottom = 647.0
+
+[node name="Boton_Avanzar" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0112749
+anchor_top = 0.253478
+anchor_right = 0.0112749
+anchor_bottom = 0.253478
+offset_left = 99.0
+offset_top = 212.0
+offset_right = 194.0
+offset_bottom = 289.0
+action_mode = 0
+text = "Avanzar
+"
+script = ExtResource("3_6km8r")
+metadata/_edit_use_anchors_ = true
+
+[node name="Boton_Derecha" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0962706
+anchor_top = 0.387944
+anchor_right = 0.0962706
+anchor_bottom = 0.387944
+offset_left = 99.0
+offset_top = 212.0
+offset_right = 194.0
+offset_bottom = 289.0
+action_mode = 0
+text = "Mover
+Derecha"
+script = ExtResource("3_6km8r")
+metadata/_edit_use_anchors_ = true
+
+[node name="Boton_Izquierda" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.159593
+anchor_top = 0.0261008
+anchor_right = -0.159593
+anchor_bottom = 0.0261008
+offset_left = 197.011
+offset_top = 444.113
+offset_right = 292.011
+offset_bottom = 521.113
+action_mode = 0
+text = "Mover
+Izquierda"
+script = ExtResource("3_6km8r")
+metadata/_edit_use_anchors_ = true
+
+[node name="Boton_Retroceder" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.158736
+anchor_top = -0.192002
+anchor_right = -0.158736
+anchor_bottom = -0.192002
+offset_left = 295.023
+offset_top = 676.226
+offset_right = 390.023
+offset_bottom = 753.226
+action_mode = 0
+text = "Retroceder"
+script = ExtResource("3_6km8r")
+metadata/_edit_use_anchors_ = true
+
+[connection signal="button_up" from="Control/Boton_Avanzar" to="XROrigin3D" method="_on_accion_adelante_button_up"]
+[connection signal="pressed" from="Control/Boton_Avanzar" to="XROrigin3D" method="_on_accion_adelante_pressed"]
+[connection signal="button_up" from="Control/Boton_Derecha" to="XROrigin3D" method="_on_accion_derecha_button_up"]
+[connection signal="pressed" from="Control/Boton_Derecha" to="XROrigin3D" method="_on_accion_derecha_pressed"]
+[connection signal="button_up" from="Control/Boton_Izquierda" to="XROrigin3D" method="_on_accion_izquierda_button_up"]
+[connection signal="pressed" from="Control/Boton_Izquierda" to="XROrigin3D" method="_on_accion_izquierda_pressed"]
+[connection signal="button_up" from="Control/Boton_Retroceder" to="XROrigin3D" method="_on_accion_atras_button_up"]
+[connection signal="pressed" from="Control/Boton_Retroceder" to="XROrigin3D" method="_on_accion_atras_pressed"]
